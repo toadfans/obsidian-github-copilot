@@ -29,6 +29,14 @@ import o200kNoIndex from "official-copilot/resources/o200k_base.tiktoken.noindex
 // @ts-expect-error - import to be bundled
 import crypt32 from "official-copilot/resources/crypt32.node";
 import { CHAT_VIEW_TYPE } from "./copilot-chat/types/constants";
+import { CopilotAPI } from "./api/CopilotAPI";
+
+// Extend window interface to include copilot API
+declare global {
+	interface Window {
+		copilotAPI?: CopilotAPI;
+	}
+}
 
 export default class CopilotPlugin extends Plugin {
 	settingsTab: CopilotPluginSettingTab;
@@ -144,12 +152,20 @@ export default class CopilotPlugin extends Plugin {
 				}
 			},
 		});
+
+		// Initialize and expose Copilot API to window
+		window.copilotAPI = new CopilotAPI(this);
+		console.log(
+			"[GitHub Copilot] API exposed to window.copilotAPI for direct model access",
+		);
 	}
 
 	onunload() {
 		this.copilotAgent?.stopAgent();
 		this.statusBar = null;
 		this.deactivateView();
+		// Clean up window API
+		delete window.copilotAPI;
 	}
 
 	async activateView(): Promise<void> {

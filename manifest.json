@@ -1,6 +1,6 @@
 {
-	"id": "github-copilot",
-	"name": "GitHub Copilot",
+	"id": "github-copilot-forked",
+	"name": "GitHub Copilot (Forked)",
 	"version": "1.1.8",
 	"minAppVersion": "1.5.12",
 	"description": "Implement GitHub Copilot services (suggestion and chat) in Obsidian",
